@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Appointment List</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:20px;
+}
+
+h2{
+    text-align:center;
+    color:#333;
+}
+
+table{
+    width:90%;
+    margin:auto;
+    border-collapse:collapse;
+    background:white;
+    box-shadow:0px 2px 10px rgba(0,0,0,0.2);
+}
+
+th{
+    background:#4CAF50;
+    color:white;
+    padding:12px;
+}
+
+td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+tr:nth-child(even){
+    background:#f2f2f2;
+}
+
+.delete-btn{
+    color:red;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.add-btn{
+    background:#28a745;
+    color:white;
+    padding:10px 20px;
+    text-decoration:none;
+    border-radius:5px;
+}
+
+.button-container{
+    text-align:center;
+    margin-top:20px;
+}
+</style>
+
+</head>
+<body>
+
+<h2>Appointment List</h2>
+<input type="text" id="searchInput"
+       placeholder="Search Appointment"
+       style="padding:8px; width:250px; margin-bottom:10px; display:block; margin-left:auto; margin-right:auto;">
+
+<table id="appointmentTable">
+    <tr>
+        <th>ID</th>
+        <th>Patient Name</th>
+        <th>Doctor Name</th>
+        <th>Appointment Date</th>
+        <th>Action</th>
+    </tr>
+
+    <tr th:each="o : ${appointments}">
+        <td th:text="${o.id}"></td>
+        <td th:text="${o.patientName}"></td>
+        <td th:text="${o.doctorName}"></td>
+        <td th:text="${o.appointmentDate}"></td>
+
+        <td>
+            <a class="delete-btn"
+               th:href="@{/appointment/delete/{id}(id=${o.id})}">
+                Delete
+            </a>
+        </td>
+    </tr>
+
+</table>
+
+<div class="button-container">
+    <a href="/appointment" class="add-btn">
+        Add New Appointment
+    </a>
+</div>
+<script>
+document.getElementById("searchInput").addEventListener("keyup", function() {
+
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#appointmentTable tr");
+
+    rows.forEach(function(row, index) {
+
+        if(index === 0) return;
+
+        let text = row.innerText.toLowerCase();
+
+        row.style.display = text.includes(filter) ? "" : "none";
+    });
+});
+</script>
+
+</body>
+</html>

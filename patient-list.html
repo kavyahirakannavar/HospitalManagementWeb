@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Patient List</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background-color:#f4f6f9;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    width:80%;
+    margin:auto;
+}
+
+h2{
+    text-align:center;
+    color:#2c3e50;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    box-shadow:0px 2px 8px rgba(0,0,0,0.2);
+}
+
+th{
+    background:#007bff;
+    color:white;
+    padding:12px;
+}
+
+td{
+    padding:10px;
+    text-align:center;
+}
+
+tr:nth-child(even){
+    background:#f2f2f2;
+}
+
+.delete-btn{
+    background:red;
+    color:white;
+    padding:6px 12px;
+    text-decoration:none;
+    border-radius:5px;
+}
+
+.add-btn{
+    display:inline-block;
+    margin-top:15px;
+    background:green;
+    color:white;
+    padding:10px 15px;
+    text-decoration:none;
+    border-radius:5px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h2>Patient Management System</h2>
+<input type="text" id="searchInput"
+       placeholder="Search Patient"
+       style="padding:8px; width:250px; margin-bottom:10px;">
+       
+<table id="patientTable">
+<tr>
+    <th>Sl No</th>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Disease</th>
+    <th>Action</th>
+</tr>
+
+<tr th:each="patient, stat : ${patients}">
+    <td th:text="${stat.count}"></td>
+    <td th:text="${patient.id}"></td>
+    <td th:text="${patient.patientName}"></td>
+    <td th:text="${patient.age}"></td>
+    <td th:text="${patient.disease}"></td>
+
+    <td>
+    <a th:href="@{/patient/delete/{id}(id=${patient.id})}"
+       style="background:red; color:white; padding:5px 10px; text-decoration:none; border-radius:5px;">
+       Delete
+    </a>
+</td>
+
+</table>
+
+<a class="add-btn" href="/patient/register">
+    Add New Patient
+</a>
+
+</div>
+<script>
+document.getElementById("searchInput").addEventListener("keyup", function() {
+
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#patientTable tr");
+
+    rows.forEach(function(row, index) {
+
+        if(index === 0) return;
+
+        let text = row.innerText.toLowerCase();
+
+        row.style.display = text.includes(filter) ? "" : "none";
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Doctors List</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background: #e6f7ff;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+        }
+
+        .container{
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 0 15px rgba(0,0,0,0.2);
+            width:800px;
+        }
+
+        h2{
+            text-align:center;
+            color:#333;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:20px;
+        }
+
+        th,td{
+            border:1px solid #ddd;
+            padding:10px;
+            text-align:center;
+        }
+
+        th{
+            background:#4CAF50;
+            color:white;
+        }
+
+        a.delete{
+            color:red;
+            text-decoration:none;
+            font-weight:bold;
+        }
+
+        .home-btn{
+            display:inline-block;
+            margin-top:20px;
+            padding:10px 20px;
+            background:#4CAF50;
+            color:white;
+            text-decoration:none;
+            border-radius:5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Doctors List</h2>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Specialization</th>
+            <th>Phone Number</th>
+            <th>Action</th>
+        </tr>
+
+        <tr th:each="doctor : ${doctors}">
+            <td th:text="${doctor.doctorName}"></td>
+            <td th:text="${doctor.specialization}"></td>
+            <td th:text="${doctor.phoneNumber}"></td>
+            <td>
+                <a class="delete"
+                   th:href="@{/doctor/delete/{id}(id=${doctor.id})}">
+                   Delete
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <a href="/" class="home-btn">Back to Home</a>
+</div>
+
+</body>
+</html>
